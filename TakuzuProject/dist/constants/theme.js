@@ -1,22 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.colors = {
-    background: "#fafafa",
-    main: "#d14242",
-    text: "#232323",
-    white: "#FFFFFF",
-    black: '#000000'
+    background: "#EDEDED",
+    clock: "#6E7F9C",
+    main: "#6077e3",
+    mainBold: '#3A497C',
+    question: '#B6B6B6',
+    shadow: "#E3E3E3",
+    white: '#FFF',
+    yellow: '#EAAA47',
+    yellowBold: '#A35E18',
 };
 exports.fontFamily = undefined;
 exports.styles = {
     cardShadow: {
         elevation: 3,
-        shadowColor: "rgb(55, 55, 55)",
+        shadowColor: "#bfbfbf",
         shadowOffset: {
             height: 4,
             width: 0
         },
-        shadowOpacity: 0.05,
+        shadowOpacity: 0.5,
         shadowRadius: 15
     },
     shadow: {

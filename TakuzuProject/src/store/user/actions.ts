@@ -1,39 +1,40 @@
+import {CardModel} from "../../models/application/CardModel";
 import { IDispatch, IThunkFunction } from "../index";
 import {
-    IOnChangeFontSizeFailureAction, IOnChangeFontSizeRequestAction,
-    IOnChangeFontSizeSuccessAction,
+    IOnChangeValueMatrixFailureAction, IOnChangeValueMatrixRequestAction,
+    IOnChangeValueMatrixSuccessAction,
     Types
 } from "./types";
 
-function changeFontSize(fontSize: number): IThunkFunction {
+function changeFontSize(matrix: CardModel[][]): IThunkFunction {
     return async (dispatch: IDispatch) => {
         try {
-            dispatch(OnChangeFontSizeRequest());
-            dispatch(OnChangeFontSizeSuccess(fontSize));
+            dispatch(OnChangeValueMatrixRequest());
+            dispatch(OnChangeValueMatrixSuccess(matrix));
         } catch (error) {
-            dispatch(OnChangeFontSizeFailure(error));
+            dispatch(OnChangeValueMatrixFailure(error));
         }
     };
 }
 
-function OnChangeFontSizeRequest(): IOnChangeFontSizeRequestAction {
+function OnChangeValueMatrixRequest(): IOnChangeValueMatrixRequestAction {
     return {
         payload: undefined,
-        type: Types.ON_CHANGE_FONT_SIZE_REQUEST
+        type: Types.ON_CHANGE_VALUE_MATRIX_REQUEST
     };
 }
 
-function OnChangeFontSizeSuccess(fontSize: number): IOnChangeFontSizeSuccessAction {
+function OnChangeValueMatrixSuccess(matrix: CardModel[][]): IOnChangeValueMatrixSuccessAction {
     return {
-        payload: fontSize,
-        type: Types.ON_CHANGE_FONT_SIZE_SUCCESS
+        payload: matrix,
+        type: Types.ON_CHANGE_VALUE_MATRIX_SUCCESS
     };
 }
 
-function OnChangeFontSizeFailure(error: Error): IOnChangeFontSizeFailureAction {
+function OnChangeValueMatrixFailure(error: Error): IOnChangeValueMatrixFailureAction {
     return {
         payload: error,
-        type: Types.ON_CHANGE_FONT_SIZE_FAILURE
+        type: Types.ON_CHANGE_VALUE_MATRIX_FAILURE
     };
 }
 

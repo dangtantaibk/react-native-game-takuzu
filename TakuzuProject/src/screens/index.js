@@ -1,6 +1,6 @@
 import HomeScreen from "./containers/HomeScreen";
-import AccountScreen from "./containers/AccountScreen";
-import SettingScreen from "./containers/SettingScreen";
+import AccountScreen from "./containers/PlayScreen";
+import SettingScreen from "./containers/RankScreen";
 
 export {
     HomeScreen,

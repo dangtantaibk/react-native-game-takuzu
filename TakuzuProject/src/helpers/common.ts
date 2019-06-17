@@ -1,59 +1,41 @@
+
 /**
- * Hidden email
+ * Declare an empty two-dimensional array
  *
- * @param {string} email
- * @return {string}
+ * @param {number} rows
+ * @param {number} cols
+ * @param {number} defaultValue
+ * @return {boolean}
  */
-export function hideEmail(email: string) {
-  let hiddenEmail = "";
-  for (let i = 0; i < email.length; i++) {
-    if (i < email.indexOf("@") ) {
-      if (email.indexOf("@") > 5) {
-        switch (i) {
-          case 0:
-          case 1:
-            hiddenEmail += email[i]; break;
-          case email.indexOf("@") - 1:
-          case email.indexOf("@") - 2:
-            hiddenEmail += email[i]; break;
-          default:
-            hiddenEmail += "*";
-        }
-      } else {
-        switch (i) {
-          case 0: hiddenEmail += email[i]; break;
-          case email.indexOf("@") - 1: hiddenEmail += email[i]; break;
-          default:
-            hiddenEmail += "*";
-        }
-      }
-    } else {
-      hiddenEmail += email[i];
-    }
+export function createMatrix(rows: number, cols: number, defaultValue: number){
+
+  const arr = new Array(rows);
+
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = new Array(cols)
+        .fill({
+          error: false,
+          fixed: false,
+          value: defaultValue,
+        });
   }
-  return hiddenEmail;
+
+  const randomNumberCardDefault = getRndInteger(2, 4);
+
+  for (let i = 0; i < randomNumberCardDefault; i++) {
+    const randomRows = getRndInteger(0, rows - 1);
+    const randomCols = getRndInteger(0, cols - 1);
+    const randomValue = getRndInteger(0, 1);
+    let item = arr[randomRows][randomCols];
+    item = {...item, fixed: true, value: randomValue};
+    arr[randomRows][randomCols] = item;
+  }
+
+  return arr;
 }
 
-/**
- * Validate email
- *
- * @param {string} email
- * @return {boolean}
- */
-export function validateEmail(email: string) {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-}
-
-/**
- * Validate phone number
- *
- * @param {string} phoneNumber
- * @return {boolean}
- */
-export function validatePhoneNumber(phoneNumber: string) {
-  const phoneno = /^\d{10}$/ || /^\d{11}$/;
-  return phoneno.test(String(phoneNumber).toLowerCase());
+export function getRndInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
 /**

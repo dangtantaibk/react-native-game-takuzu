@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   View
 } from 'react-native';
 import {connect} from "react-redux";
 import {StoreState} from "../../store";
 
+// tslint:disable-next-line:no-empty-interface
 interface IStateInjectedProps {
-  fontSizeForDisplay: number,
+  // fontSizeForDisplay: number,
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -16,25 +16,21 @@ interface IProps extends IStateInjectedProps{
 
 }
 
-class SettingScreen extends Component<IProps> {
+class RankScreen extends Component<IProps> {
   public render() {
-    const {fontSizeForDisplay} = this.props;
 
     return (
       <View style={styles.container}>
-        <Text style={[styles.welcome, {fontSize: fontSizeForDisplay}]}>
-          Welcome to React Native!
-        </Text>
       </View>
     );
   }
 }
 
 const mapStateToProps = (state: StoreState): IStateInjectedProps => ({
-  fontSizeForDisplay: state.User.fontSizeForDisplay,
+  matrix: state.User.matrix,
 });
 
-export default connect(mapStateToProps, null)(SettingScreen);
+export default connect(mapStateToProps, null)(RankScreen);
 
 const styles = StyleSheet.create({
   container: {

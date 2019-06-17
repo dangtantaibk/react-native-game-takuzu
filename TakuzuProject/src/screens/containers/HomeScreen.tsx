@@ -1,64 +1,58 @@
 import React, { Component } from 'react';
 import {
+  Image,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import {NavigationScreenProps} from "react-navigation";
 import {connect} from "react-redux";
 import {bindActionCreators, Dispatch} from 'redux';
+import {icons} from "../../assets/images";
 import {TouchableDebounce} from "../../components/TouchableDebounce";
 import {colors} from "../../constants/theme";
 import {StoreState} from "../../store";
 import * as UserActions from "../../store/user/actions";
 
-
+// tslint:disable-next-line:no-empty-interface
 interface IDispatchInjectedProps {
-  UserActions: typeof UserActions,
+  // UserActions: typeof UserActions,
 }
 
 
+// tslint:disable-next-line:no-empty-interface
 interface IStateInjectedProps {
-  fontSizeForDisplay: number,
+  // fontSizeForDisplay: number,
 }
 
-interface IProps extends IStateInjectedProps, IDispatchInjectedProps{
+interface IProps extends NavigationScreenProps, IStateInjectedProps, IDispatchInjectedProps{
 
 }
 
 class HomeScreen extends Component<IProps> {
-  public render() {
-    // tslint:disable-next-line:no-shadowed-variable
-    const { UserActions, fontSizeForDisplay } = this.props;
+  constructor(props: IProps) {
+    super(props);
 
+  }
+
+  public render() {
     return (
       <View style={styles.container}>
-        <Text style={[styles.welcome, {fontSize: fontSizeForDisplay}]}>
-          Welcome to React Native!
-        </Text>
-        <Text style={{ fontSize: 20, marginBottom: 20 }}>
-          Select fontSize for Text:
-        </Text>
-        <View>
-          <TouchableDebounce onPress={() => {UserActions.changeFontSize(10)}}
-              style={styles.button}>
-            <Text style={[styles.textButton, {fontSize: 12}]}>SMALL</Text>
-          </TouchableDebounce>
-          <TouchableDebounce onPress={() => {UserActions.changeFontSize(14)}}
-              style={styles.button}>
-            <Text style={[styles.textButton, {fontSize: 14}]}>STANDARD</Text>
-          </TouchableDebounce>
-          <TouchableDebounce onPress={() => {UserActions.changeFontSize(18)}}
-              style={styles.button}>
-            <Text style={[styles.textButton, {fontSize: 16}]}>LARGE</Text>
-          </TouchableDebounce>
-        </View>
+        <TouchableDebounce onPress={() => {this.props.navigation.navigate('PlayScreen')}}
+            style={styles.blockPlay}>
+          <Image source={icons.Play} style={{ tintColor: colors.main }}/>
+        </TouchableDebounce>
+        <TouchableDebounce onPress={() => {this.props.navigation.navigate('RankScreen')}}
+            style={styles.blockRanking}>
+          <Image source={icons.ranking} style={{ tintColor: colors.main }}/>
+        </TouchableDebounce>
       </View>
     );
   }
+
 }
 
 const mapStateToProps = (state: StoreState): IStateInjectedProps => ({
-  fontSizeForDisplay: state.User.fontSizeForDisplay,
+  matrix: state.User.matrix,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IDispatchInjectedProps => ({
@@ -69,14 +63,14 @@ const mapDispatchToProps = (dispatch: Dispatch): IDispatchInjectedProps => ({
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
-  button: {
+  blockPlay: {
     alignItems: 'center',
-    backgroundColor: colors.main,
-    borderRadius: 5,
-    height: 50,
-    margin: 5,
-    width: 200,
-    // tslint:disable-next-line:object-literal-sort-keys
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  blockRanking: {
+    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
   },
   container: {

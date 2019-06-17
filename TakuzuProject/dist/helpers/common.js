@@ -1,53 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function hideEmail(email) {
-    let hiddenEmail = "";
-    for (let i = 0; i < email.length; i++) {
-        if (i < email.indexOf("@")) {
-            if (email.indexOf("@") > 5) {
-                switch (i) {
-                    case 0:
-                    case 1:
-                        hiddenEmail += email[i];
-                        break;
-                    case email.indexOf("@") - 1:
-                    case email.indexOf("@") - 2:
-                        hiddenEmail += email[i];
-                        break;
-                    default:
-                        hiddenEmail += "*";
-                }
-            }
-            else {
-                switch (i) {
-                    case 0:
-                        hiddenEmail += email[i];
-                        break;
-                    case email.indexOf("@") - 1:
-                        hiddenEmail += email[i];
-                        break;
-                    default:
-                        hiddenEmail += "*";
-                }
-            }
-        }
-        else {
-            hiddenEmail += email[i];
-        }
+function createMatrix(rows, cols, defaultValue) {
+    const arr = new Array(rows);
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = new Array(cols)
+            .fill({
+            error: false,
+            fixed: false,
+            value: defaultValue,
+        });
     }
-    return hiddenEmail;
+    const randomNumberCardDefault = getRndInteger(2, 4);
+    for (let i = 0; i < randomNumberCardDefault; i++) {
+        const randomRows = getRndInteger(0, rows - 1);
+        const randomCols = getRndInteger(0, cols - 1);
+        const randomValue = getRndInteger(0, 1);
+        let item = arr[randomRows][randomCols];
+        item = Object.assign({}, item, { fixed: true, value: randomValue });
+        arr[randomRows][randomCols] = item;
+    }
+    return arr;
 }
-exports.hideEmail = hideEmail;
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+exports.createMatrix = createMatrix;
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-exports.validateEmail = validateEmail;
-function validatePhoneNumber(phoneNumber) {
-    const phoneno = /^\d{10}$/ || /^\d{11}$/;
-    return phoneno.test(String(phoneNumber).toLowerCase());
-}
-exports.validatePhoneNumber = validatePhoneNumber;
+exports.getRndInteger = getRndInteger;
 function convertStringToSeconds(timeString) {
     const time = timeString.split(':');
     let seconds;

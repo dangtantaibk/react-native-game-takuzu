@@ -1,16 +1,16 @@
 import { createStackNavigator } from "react-navigation";
 import {HomeScreen} from "../../screens";
-import AccountScreen from "../../screens/containers/AccountScreen";
-import {Main} from "../tabs/Main";
+import PlayScreen from "../../screens/containers/PlayScreen";
+import RankScreen from "../../screens/containers/RankScreen";
 
 export const App =
     createStackNavigator({
-      Main,
       HomeScreen,
-      AccountScreen
+      PlayScreen,
+      RankScreen
     }, {
       headerMode: "none",
-      initialRouteName: 'Main',
+      initialRouteName: 'HomeScreen',
       navigationOptions: {
         swipeEnabled: false
       }
