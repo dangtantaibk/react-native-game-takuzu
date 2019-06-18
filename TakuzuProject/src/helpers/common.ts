@@ -97,6 +97,24 @@ export function checkMatrix(matrix: CardModel[][]) {
   for (let i = 0; i < matrix.length; i++) {
     let countValue0 = 0;
     let countValue1 = 0;
+    let countValueRows0 = 0;
+    let countValueRows1 = 0;
+    matrix.forEach(value => {
+      if (value[i].value === 0) {countValueRows0 ++}
+      if (value[i].value === 1) {countValueRows1 ++}
+    });
+    if (countValueRows0 >= 3) {
+      for (let x = 0; x < 4; x++) {
+        matrix[x][i] = matrix[x][i].value === 0 ? {...matrix[x][i], error: true} : matrix[x][i];
+      }
+    }
+
+    if (countValueRows1 >= 3) {
+      for (let x = 0; x < 4; x++) {
+        matrix[x][i] = matrix[x][i].value === 1 ? {...matrix[x][i], error: true} : matrix[x][i];
+      }
+    }
+
     matrix[i].forEach(value => {
       if (value.value === 0) {countValue0 ++}
       if (value.value === 1) {countValue1 ++}
@@ -119,6 +137,14 @@ export function checkMatrix(matrix: CardModel[][]) {
     }
   }
 
+  // tslint:disable-next-line:prefer-for-of
+  // for(let i = 0; i < matrix.length; i++){
+  //   // tslint:disable-next-line:prefer-for-of
+  //   for(let j = 0; j < matrix[i].length; j++){
+  //     const array =
+  //   }
+  //   reactotron.log('i', matrix[i])
+  // }
 }
 
 export function getRndInteger(min: number, max: number) {
