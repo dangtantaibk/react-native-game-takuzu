@@ -82,7 +82,7 @@ class PlayScreen extends react_1.Component {
     onModalRefresh() {
         clearInterval(this.intervalListener);
         this.setState({
-            modalConfirmVisible: true,
+            modalRefreshVisible: true,
         });
     }
     onDontSave() {
@@ -131,8 +131,8 @@ class PlayScreen extends react_1.Component {
                     react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Home, style: styles.imageFooter })),
                 react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => this.onModalRefresh(), style: styles.buttonFooter },
                     react_1.default.createElement(react_native_1.Image, { source: images_1.icons.refresh, style: styles.imageFooter }))),
-            react_1.default.createElement(Popup_1.default, { modalVisible: modalConfirmVisible, isDontSaveButton: true, onDontSave: this.onDontSave, onPressButtonYes: this.onGoBackHomeScreen, onClose: this.onCloseModalConfirm, title: 'Bạn có chắc chắn muốn chơi lại không?' }),
-            react_1.default.createElement(Popup_1.default, { modalVisible: modalRefreshVisible, onPressButtonYes: this.onRefreshGame, onClose: this.onCloseModalRefresh, title: 'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?' })));
+            react_1.default.createElement(Popup_1.default, { modalVisible: modalConfirmVisible, isDontSaveButton: true, onDontSave: this.onDontSave, onPressButtonYes: this.onGoBackHomeScreen, onClose: this.onCloseModalConfirm, title: 'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?' }),
+            react_1.default.createElement(Popup_1.default, { modalVisible: modalRefreshVisible, onPressButtonYes: this.onRefreshGame, onClose: this.onCloseModalRefresh, title: 'Bạn có chắc chắn muốn chơi lại không?' })));
     }
     renderTable() {
         const { matrix } = this.state;
