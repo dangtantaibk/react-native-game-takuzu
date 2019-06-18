@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const types_1 = require("./types");
-function changeFontSize(matrix) {
+function changeValueMatrix(matrix) {
     return (dispatch) => __awaiter(this, void 0, void 0, function* () {
         try {
             dispatch(OnChangeValueMatrixRequest());
@@ -20,7 +20,7 @@ function changeFontSize(matrix) {
         }
     });
 }
-exports.changeFontSize = changeFontSize;
+exports.changeValueMatrix = changeValueMatrix;
 function OnChangeValueMatrixRequest() {
     return {
         payload: undefined,
@@ -39,3 +39,10 @@ function OnChangeValueMatrixFailure(error) {
         type: types_1.Types.ON_CHANGE_VALUE_MATRIX_FAILURE
     };
 }
+function resetState() {
+    return {
+        payload: undefined,
+        type: types_1.Types.RESET_STATE
+    };
+}
+exports.resetState = resetState;

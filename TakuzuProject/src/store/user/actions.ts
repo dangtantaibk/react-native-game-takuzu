@@ -5,13 +5,11 @@ import {
     IOnChangeValueMatrixSuccessAction, IResetStateAction,
     Types
 } from "./types";
-import reactotron from "reactotron-react-native";
 
 function changeValueMatrix(matrix: MatrixModel): IThunkFunction {
     return async (dispatch: IDispatch) => {
         try {
             dispatch(OnChangeValueMatrixRequest());
-            reactotron.log!('456', matrix);
             dispatch(OnChangeValueMatrixSuccess(matrix));
         } catch (error) {
             dispatch(OnChangeValueMatrixFailure(error));

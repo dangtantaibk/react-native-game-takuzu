@@ -22,6 +22,18 @@ function createMatrix(rows, cols, defaultValue) {
     return arr;
 }
 exports.createMatrix = createMatrix;
+function checkMatrixDone(matrix) {
+    let isDone = true;
+    for (let i = 0; i < matrix.length; i++) {
+        for (const item of matrix[i]) {
+            if (item.value === 2 || item.error) {
+                isDone = false;
+            }
+        }
+    }
+    return isDone;
+}
+exports.checkMatrixDone = checkMatrixDone;
 function changeMatrix(indexRow, indexCol, matrix) {
     let item = matrix[indexRow][indexCol];
     switch (item.value) {
@@ -49,17 +61,25 @@ function checkMatrix(matrix) {
     }
     for (let i = 0; i < matrix.length; i++) {
         const arr1 = matrix[i].map(item => item.value);
-        for (let j = 0; j < matrix.length; j++) {
-            if (j < matrix.length - 1 && i !== j) {
-                const arr2 = matrix[j].map(item => item.value);
-                const equal = isEqual(arr1, arr2);
-                if (equal) {
-                    matrix[i] = matrix[i].map(item => {
-                        return Object.assign({}, item, { error: true });
-                    });
-                    matrix[j] = matrix[j].map(item => {
-                        return Object.assign({}, item, { error: true });
-                    });
+        let isFull = true;
+        for (const item of matrix[i]) {
+            if (item.value === 2) {
+                isFull = false;
+            }
+        }
+        if (isFull) {
+            for (let j = 0; j < matrix.length; j++) {
+                if (j < matrix.length - 1 && i !== j) {
+                    const arr2 = matrix[j].map(item => item.value);
+                    const equal = isEqual(arr1, arr2);
+                    if (equal) {
+                        matrix[i] = matrix[i].map(item => {
+                            return Object.assign({}, item, { error: true });
+                        });
+                        matrix[j] = matrix[j].map(item => {
+                            return Object.assign({}, item, { error: true });
+                        });
+                    }
                 }
             }
         }
@@ -165,3 +185,10 @@ function convertStringToSeconds(timeString) {
     return seconds;
 }
 exports.convertStringToSeconds = convertStringToSeconds;
+function convertSecondsToString(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const second = Math.floor(seconds - minutes * 60);
+    const timeString = `${minutes < 10 ? '0' + minutes.toString() : minutes.toString()}:${second < 10 ? '0' + second.toString() : second.toString()}`;
+    return timeString;
+}
+exports.convertSecondsToString = convertSecondsToString;

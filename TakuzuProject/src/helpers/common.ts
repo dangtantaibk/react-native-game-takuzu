@@ -35,6 +35,19 @@ export function createMatrix(rows: number, cols: number, defaultValue: number){
   return arr;
 }
 
+export function checkMatrixDone(matrix: CardModel[][]) {
+  let isDone: boolean = true;
+  // tslint:disable-next-line:prefer-for-of
+  for (let i = 0; i < matrix.length; i++) {
+    for (const item of matrix[i]) {
+      if (item.value === 2 || item.error) {
+        isDone = false
+      }
+    }
+  }
+  return isDone;
+}
+
 export function changeMatrix(indexRow: number, indexCol: number, matrix: CardModel[][]) {
   let item = matrix[indexRow][indexCol];
   switch (item.value) {

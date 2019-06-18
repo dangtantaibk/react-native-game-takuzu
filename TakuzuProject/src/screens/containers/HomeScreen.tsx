@@ -13,6 +13,7 @@ import {colors} from "../../constants/theme";
 import {StoreState} from "../../store";
 import * as UserActions from "../../store/user/actions";
 
+
 // tslint:disable-next-line:no-empty-interface
 interface IDispatchInjectedProps {
   // UserActions: typeof UserActions,
@@ -37,9 +38,9 @@ class HomeScreen extends Component<IProps> {
   public render() {
     return (
       <View style={styles.container}>
-        <TouchableDebounce onPress={() => {this.props.navigation.replace('PlayScreen')}}
+        <TouchableDebounce onPress={() => {this.props.navigation.navigate('PlayScreen')}}
             style={styles.blockPlay}>
-          <Image source={icons.Play} style={{ tintColor: colors.main }}/>
+          <Image source={icons.Play}/>
         </TouchableDebounce>
         <TouchableDebounce onPress={() => {this.props.navigation.navigate('RankScreen')}}
             style={styles.blockRanking}>

@@ -11,14 +11,16 @@ import {connect} from "react-redux";
 import reactotron from "reactotron-react-native";
 import {bindActionCreators, Dispatch} from "redux";
 import {icons} from "../../assets/images";
-import Popup from "./components/Popup";
 import {TouchableDebounce} from "../../components/TouchableDebounce";
 import {colors, styles as STYLES} from "../../constants/theme";
-import {changeMatrix, convertSecondsToString, createMatrix} from "../../helpers/common";
+import {changeMatrix, checkMatrixDone, convertSecondsToString, createMatrix} from "../../helpers/common";
 import {CardModel} from "../../models/application/CardModel";
 import {MatrixModel} from "../../models/application/MatrixModel";
 import {StoreState} from "../../store";
 import * as UserActions from '../../store/user/actions'
+import Popup from "./components/Popup";
+// tslint:disable-next-line:no-var-requires
+const Realm = require('realm');
 
 interface IStateInjectedProps {
   matrix: MatrixModel,
@@ -50,7 +52,7 @@ class PlayScreen extends Component<IProps, IState> {
       count: props.matrix.timeCount || 0,
       matrix: props.matrix.matrix || [],
       modalConfirmVisible: false,
-      modalRefreshVisible: false
+      modalRefreshVisible: false,
     };
 
     this.renderTable = this.renderTable.bind(this);
@@ -75,6 +77,21 @@ class PlayScreen extends Component<IProps, IState> {
   public setInterval() {
     this.intervalListener = setInterval(() => {
       this.setState({ count: this.state.count + 1 });
+
+      const isDone = checkMatrixDone(this.state.matrix);
+      if (isDone) {
+        clearInterval(this.intervalListener);
+        Realm.open({
+          schema: [{name: 'Time', properties: {time: 'int'}}]
+        }).then((realm: any) => {
+          realm.write(() => {
+            realm.create('Time', {time: this.state.count});
+          });
+          this.props.UserActions.resetState();
+          this.props.navigation.replace('RankScreen')
+        });
+      }
+
     }, 1000);
   }
 
@@ -118,14 +135,14 @@ class PlayScreen extends Component<IProps, IState> {
               isDontSaveButton={true}
               onDontSave={() => {
                 this.props.UserActions.resetState();
-                this.props.navigation.replace('HomeScreen');
+                this.props.navigation.goBack();
               }}
               onPressButtonYes={() => {
                 this.props.UserActions.changeValueMatrix({
                   matrix,
                   timeCount: count
                 });
-                this.props.navigation.replace('HomeScreen');
+                this.props.navigation.goBack();
               }}
               onClose={() => {
                 clearInterval(this.intervalListener);

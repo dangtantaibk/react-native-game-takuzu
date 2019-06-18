@@ -6,8 +6,9 @@ exports.icons = {
     Crosshair: require("./icons/Crosshair.png"),
     Home: require("./icons/Home.png"),
     Locked: require("./icons/Locked.png"),
-    Play: require("./icons/Play.png"),
+    Play: require("./icons/play.png"),
     User: require("./icons/User.png"),
+    leftArow: require("./icons/left-arrow.png"),
     ranking: require("./icons/ranking.png"),
     refresh: require("./icons/refresh.png"),
 };

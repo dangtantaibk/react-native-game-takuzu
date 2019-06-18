@@ -22,7 +22,7 @@ class HomeScreen extends react_1.Component {
     render() {
         return (react_1.default.createElement(react_native_1.View, { style: styles.container },
             react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => { this.props.navigation.navigate('PlayScreen'); }, style: styles.blockPlay },
-                react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Play, style: { tintColor: theme_1.colors.main } })),
+                react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Play })),
             react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => { this.props.navigation.navigate('RankScreen'); }, style: styles.blockRanking },
                 react_1.default.createElement(react_native_1.Image, { source: images_1.icons.ranking, style: { tintColor: theme_1.colors.main } }))));
     }
@@ -47,7 +47,7 @@ const styles = react_native_1.StyleSheet.create({
     },
     container: {
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: theme_1.colors.background,
         flex: 1,
         justifyContent: 'center',
     },

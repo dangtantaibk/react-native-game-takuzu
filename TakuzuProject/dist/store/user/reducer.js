@@ -1,11 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("../../helpers/common");
+const MatrixModel_1 = require("../../models/application/MatrixModel");
 const types_1 = require("./types");
 exports.initState = {
     changeValueCardHasError: false,
     changeValueCardLoading: false,
-    matrix: common_1.createMatrix(4, 4, 2),
+    matrix: new MatrixModel_1.MatrixModel({
+        matrix: common_1.createMatrix(4, 4, 2),
+        timeCount: 0
+    })
 };
 function default_1(state = exports.initState, action) {
     switch (action.type) {
@@ -19,7 +23,10 @@ function default_1(state = exports.initState, action) {
             return Object.assign({}, state, { changeValueCardHasError: true, changeValueCardLoading: false });
         }
         case types_1.Types.RESET_STATE: {
-            return exports.initState;
+            return Object.assign({}, state, { matrix: new MatrixModel_1.MatrixModel({
+                    matrix: common_1.createMatrix(4, 4, 2),
+                    timeCount: 0
+                }) });
         }
         default: return Object.assign({}, state);
     }

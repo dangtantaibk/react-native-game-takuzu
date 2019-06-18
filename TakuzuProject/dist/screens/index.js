@@ -6,6 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const HomeScreen_1 = __importDefault(require("./containers/HomeScreen"));
 exports.HomeScreen = HomeScreen_1.default;
 const PlayScreen_1 = __importDefault(require("./containers/PlayScreen"));
-exports.AccountScreen = PlayScreen_1.default;
+exports.PlayScreen = PlayScreen_1.default;
 const RankScreen_1 = __importDefault(require("./containers/RankScreen"));
-exports.SettingScreen = RankScreen_1.default;
+exports.RankScreen = RankScreen_1.default;
