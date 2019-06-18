@@ -1,40 +1,53 @@
+import {createMatrix} from "../../helpers/common";
+import {MatrixModel} from "../../models/application/MatrixModel";
 import {IActions, IState, Types} from "./types";
 
 
 export const initState: IState = {
-    changeFontSizeHasError: false,
-    changeFontSizeLoading: false,
-    fontSizeForDisplay: 14,
+    changeValueCardHasError: false,
+    changeValueCardLoading: false,
+    matrix: new MatrixModel({
+        matrix: createMatrix(4,4,2),
+        timeCount: 0
+    })
+
+
 };
 
 export default function (state: IState = initState, action: IActions): IState {
     switch (action.type) {
 
-        case Types.ON_CHANGE_FONT_SIZE_REQUEST: {
+        case Types.ON_CHANGE_VALUE_MATRIX_REQUEST: {
             return {
                 ...state,
-                changeFontSizeHasError: false,
-                changeFontSizeLoading: true
+                changeValueCardHasError: false,
+                changeValueCardLoading: true
             };
         }
 
-        case Types.ON_CHANGE_FONT_SIZE_SUCCESS: {
+        case Types.ON_CHANGE_VALUE_MATRIX_SUCCESS: {
             return {
                 ...state,
-                fontSizeForDisplay: action.payload,
+                matrix: action.payload,
             }
         }
 
-        case Types.ON_CHANGE_FONT_SIZE_FAILURE: {
+        case Types.ON_CHANGE_VALUE_MATRIX_FAILURE: {
             return {
                 ...state,
-                changeFontSizeHasError: true,
-                changeFontSizeLoading: false,
+                changeValueCardHasError: true,
+                changeValueCardLoading: false,
             };
         }
 
         case Types.RESET_STATE: {
-            return initState;
+            return {
+                ...state,
+                matrix: new MatrixModel({
+                    matrix: createMatrix(4,4,2),
+                    timeCount: 0
+                })
+            };
         }
 
         default: return {

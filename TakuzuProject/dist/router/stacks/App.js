@@ -5,15 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_navigation_1 = require("react-navigation");
 const screens_1 = require("../../screens");
-const AccountScreen_1 = __importDefault(require("../../screens/containers/AccountScreen"));
-const Main_1 = require("../tabs/Main");
+const PlayScreen_1 = __importDefault(require("../../screens/containers/PlayScreen"));
+const RankScreen_1 = __importDefault(require("../../screens/containers/RankScreen"));
 exports.App = react_navigation_1.createStackNavigator({
-    Main: Main_1.Main,
     HomeScreen: screens_1.HomeScreen,
-    AccountScreen: AccountScreen_1.default
+    PlayScreen: PlayScreen_1.default,
+    RankScreen: RankScreen_1.default
 }, {
     headerMode: "none",
-    initialRouteName: 'Main',
+    initialRouteName: 'HomeScreen',
     navigationOptions: {
         swipeEnabled: false
     }

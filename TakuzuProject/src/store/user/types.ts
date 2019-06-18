@@ -1,26 +1,27 @@
 import { IAction } from "../";
+import {MatrixModel} from "../../models/application/MatrixModel";
 
 export enum Types {
-    ON_CHANGE_FONT_SIZE_REQUEST = "@@user/ON_CHANGE_FONT_SIZE_REQUEST",
-    ON_CHANGE_FONT_SIZE_SUCCESS = "@@user/ON_CHANGE_FONT_SIZE_SUCCESS",
-    ON_CHANGE_FONT_SIZE_FAILURE = "@@user/ON_CHANGE_FONT_SIZE_FAILURE",
+    ON_CHANGE_VALUE_MATRIX_REQUEST = "@@user/ON_CHANGE_VALUE_MATRIX_REQUEST",
+    ON_CHANGE_VALUE_MATRIX_SUCCESS = "@@user/ON_CHANGE_VALUE_MATRIX_SUCCESS",
+    ON_CHANGE_VALUE_MATRIX_FAILURE = "@@user/ON_CHANGE_VALUE_MATRIX_FAILURE",
 
     RESET_STATE = "@@user/RESET_STATE"
 }
 
 export interface IState {
-    changeFontSizeLoading: boolean;
-    changeFontSizeHasError: boolean;
-    changeFontSizeError?: Error;
-    fontSizeForDisplay: number;
+    changeValueCardLoading: boolean;
+    changeValueCardHasError: boolean;
+    changeValueCardError?: Error;
+    matrix: MatrixModel;
 }
 
-export interface IOnChangeFontSizeRequestAction extends IAction<Types.ON_CHANGE_FONT_SIZE_REQUEST> { }
+export interface IOnChangeValueMatrixRequestAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_REQUEST> { }
 
-export interface IOnChangeFontSizeSuccessAction extends IAction<Types.ON_CHANGE_FONT_SIZE_SUCCESS, number> {
-    payload: number;
+export interface IOnChangeValueMatrixSuccessAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_SUCCESS, MatrixModel> {
+    payload: MatrixModel;
 }
-export interface IOnChangeFontSizeFailureAction extends IAction<Types.ON_CHANGE_FONT_SIZE_FAILURE, Error> { }
+export interface IOnChangeValueMatrixFailureAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_FAILURE, Error> { }
 
 export interface IResetStateAction extends IAction<Types.RESET_STATE> {
     type: Types.RESET_STATE
@@ -29,7 +30,7 @@ export interface IResetStateAction extends IAction<Types.RESET_STATE> {
 
 
 export type IActions =
-    IOnChangeFontSizeRequestAction
-    | IOnChangeFontSizeFailureAction
-    | IOnChangeFontSizeSuccessAction
+    IOnChangeValueMatrixRequestAction
+    | IOnChangeValueMatrixSuccessAction
+    | IOnChangeValueMatrixFailureAction
     | IResetStateAction;

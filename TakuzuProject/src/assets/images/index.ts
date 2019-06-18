@@ -1,10 +1,13 @@
 
 export const icons = {
-  analytics: require("./icons/analytics.png"),
-  arrow: require("./icons/arrow.png"),
-  backLeftArrow: require("./icons/arrow-black-left.png"),
-  calendarOutline: require("./icons/calendar_outline.png"),
-  menu: require("./icons/menu.png"),
-  recommend: require("./icons/recommend.png"),
+  Clock: require("./icons/Clock.png"),
+  Cross: require("./icons/Cross.png"),
+  Crosshair: require("./icons/Crosshair.png"),
+  Home: require("./icons/Home.png"),
+  Locked: require("./icons/Locked.png"),
+  Play: require("./icons/play.png"),
+  User: require("./icons/User.png"),
+  leftArow: require("./icons/left-arrow.png"),
+  ranking: require("./icons/ranking.png"),
+  refresh: require("./icons/refresh.png"),
 };
-

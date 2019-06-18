@@ -9,33 +9,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const types_1 = require("./types");
-function changeFontSize(fontSize) {
+function changeValueMatrix(matrix) {
     return (dispatch) => __awaiter(this, void 0, void 0, function* () {
         try {
-            dispatch(OnChangeFontSizeRequest());
-            dispatch(OnChangeFontSizeSuccess(fontSize));
+            dispatch(OnChangeValueMatrixRequest());
+            dispatch(OnChangeValueMatrixSuccess(matrix));
         }
         catch (error) {
-            dispatch(OnChangeFontSizeFailure(error));
+            dispatch(OnChangeValueMatrixFailure(error));
         }
     });
 }
-exports.changeFontSize = changeFontSize;
-function OnChangeFontSizeRequest() {
+exports.changeValueMatrix = changeValueMatrix;
+function OnChangeValueMatrixRequest() {
     return {
         payload: undefined,
-        type: types_1.Types.ON_CHANGE_FONT_SIZE_REQUEST
+        type: types_1.Types.ON_CHANGE_VALUE_MATRIX_REQUEST
     };
 }
-function OnChangeFontSizeSuccess(fontSize) {
+function OnChangeValueMatrixSuccess(matrix) {
     return {
-        payload: fontSize,
-        type: types_1.Types.ON_CHANGE_FONT_SIZE_SUCCESS
+        payload: matrix,
+        type: types_1.Types.ON_CHANGE_VALUE_MATRIX_SUCCESS
     };
 }
-function OnChangeFontSizeFailure(error) {
+function OnChangeValueMatrixFailure(error) {
     return {
         payload: error,
-        type: types_1.Types.ON_CHANGE_FONT_SIZE_FAILURE
+        type: types_1.Types.ON_CHANGE_VALUE_MATRIX_FAILURE
     };
 }
+function resetState() {
+    return {
+        payload: undefined,
+        type: types_1.Types.RESET_STATE
+    };
+}
+exports.resetState = resetState;
