@@ -28,12 +28,15 @@ class RankScreen extends react_1.Component {
             time: props.navigation.getParam('time', 0)
         };
     }
-    componentWillMount() {
+    componentDidMount() {
         Realm.open({
             schema: [{ name: 'Time', properties: { time: 'int' } }]
         }).then((realm) => {
             this.setState({ realm });
         });
+    }
+    componentWillUpdate() {
+        react_native_1.LayoutAnimation.easeInEaseOut();
     }
     render() {
         const timeRecentString = common_1.convertSecondsToString(this.state.time);

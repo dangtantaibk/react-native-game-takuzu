@@ -115,7 +115,7 @@ class PlayScreen extends Component<IProps, IState> {
   public onModalRefresh() {
     clearInterval(this.intervalListener);
     this.setState({
-      modalConfirmVisible: true,
+      modalRefreshVisible: true,
     });
   }
 
@@ -193,14 +193,14 @@ class PlayScreen extends Component<IProps, IState> {
               onDontSave={this.onDontSave}
               onPressButtonYes={this.onGoBackHomeScreen}
               onClose={this.onCloseModalConfirm}
-              title={'Bạn có chắc chắn muốn chơi lại không?'}
+              title={'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?'}
           />
 
           <Popup
               modalVisible={modalRefreshVisible}
               onPressButtonYes={this.onRefreshGame}
               onClose={this.onCloseModalRefresh}
-              title={'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?'}
+              title={'Bạn có chắc chắn muốn chơi lại không?'}
           />
         </View>
     );

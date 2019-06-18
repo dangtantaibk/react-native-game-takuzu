@@ -4,6 +4,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ScreenAreaView from "../../../components/ScreenAreaView";
 import {TouchableDebounce} from "../../../components/TouchableDebounce";
 import {colors} from "../../../constants/theme";
+import reactotron from "reactotron-react-native";
 
 interface IProps {
   modalVisible: boolean,
@@ -22,6 +23,7 @@ class Popup extends Component<IProps> {
   public render() {
     const {title, isDontSaveButton} = this.props;
 
+    reactotron.log!('123123', isDontSaveButton);
     return (
       <Modal
         animationType="fade"
@@ -44,12 +46,13 @@ class Popup extends Component<IProps> {
                 onPress={() => this.props.onPressButtonYes()}>
                 <Text style={styles.textButton}>{'Đồng ý'}</Text>
               </TouchableOpacity>
-              { isDontSaveButton &&
+              { isDontSaveButton ?
                 <TouchableOpacity
                     style={styles.buttonDontSave}
                     onPress={() => this.props.onDontSave && this.props.onDontSave()}>
                   <Text style={styles.textButton}>{'Thoát nhưng không lưu'}</Text>
                 </TouchableOpacity>
+                  : null
               }
               <TouchableOpacity
                   style={styles.buttonCancel}

@@ -32,9 +32,10 @@ class Popup extends react_1.Component {
                     React.createElement(react_native_1.View, null,
                         React.createElement(react_native_1.TouchableOpacity, { style: styles.buttonDone, onPress: () => this.props.onPressButtonYes() },
                             React.createElement(react_native_1.Text, { style: styles.textButton }, 'Đồng ý')),
-                        isDontSaveButton &&
+                        isDontSaveButton ?
                             React.createElement(react_native_1.TouchableOpacity, { style: styles.buttonDontSave, onPress: () => this.props.onDontSave && this.props.onDontSave() },
-                                React.createElement(react_native_1.Text, { style: styles.textButton }, 'Thoát nhưng không lưu')),
+                                React.createElement(react_native_1.Text, { style: styles.textButton }, 'Thoát nhưng không lưu'))
+                            : null,
                         React.createElement(react_native_1.TouchableOpacity, { style: styles.buttonCancel, onPress: () => this.props.onClose() },
                             React.createElement(react_native_1.Text, { style: [styles.textButton, { color: '#000' }] }, 'Trở lại')))))));
     }

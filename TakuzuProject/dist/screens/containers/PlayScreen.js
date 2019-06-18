@@ -47,6 +47,9 @@ class PlayScreen extends react_1.Component {
     componentWillUnmount() {
         clearInterval(this.intervalListener);
     }
+    componentWillUpdate() {
+        react_native_1.LayoutAnimation.easeInEaseOut();
+    }
     onChangeValue(i, j) {
         let { matrix } = this.state;
         matrix = common_1.changeMatrix(i, j, matrix);
@@ -84,7 +87,9 @@ class PlayScreen extends react_1.Component {
     }
     onDontSave() {
         this.props.UserActions.resetState();
-        this.props.navigation.goBack();
+        this.setState({ modalConfirmVisible: false }, () => {
+            this.props.navigation.goBack();
+        });
     }
     onGoBackHomeScreen() {
         const { matrix, count } = this.state;
@@ -92,7 +97,9 @@ class PlayScreen extends react_1.Component {
             matrix,
             timeCount: count
         });
-        this.props.navigation.goBack();
+        this.setState({ modalConfirmVisible: false }, () => {
+            this.props.navigation.goBack();
+        });
     }
     onCloseModalConfirm() {
         clearInterval(this.intervalListener);
