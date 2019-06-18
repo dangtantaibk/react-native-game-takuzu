@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Component } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import ScreenAreaView from "./ScreenAreaView";
-import {TouchableDebounce} from "./TouchableDebounce";
-import {colors} from "../constants/theme";
+import ScreenAreaView from "../../../components/ScreenAreaView";
+import {TouchableDebounce} from "../../../components/TouchableDebounce";
+import {colors} from "../../../constants/theme";
 
 interface IProps {
   modalVisible: boolean,

@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 import reactotron from "reactotron-react-native";
 import {bindActionCreators, Dispatch} from "redux";
 import {icons} from "../../assets/images";
-import Popup from "../../components/Popup";
+import Popup from "./components/Popup";
 import {TouchableDebounce} from "../../components/TouchableDebounce";
 import {colors, styles as STYLES} from "../../constants/theme";
 import {changeMatrix, convertSecondsToString, createMatrix} from "../../helpers/common";
