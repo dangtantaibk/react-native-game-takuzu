@@ -13,7 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 const react_native_1 = require("react-native");
 const react_redux_1 = require("react-redux");
-const reactotron_react_native_1 = __importDefault(require("reactotron-react-native"));
 const redux_1 = require("redux");
 const images_1 = require("../../assets/images");
 const TouchableDebounce_1 = require("../../components/TouchableDebounce");
@@ -34,6 +33,13 @@ class PlayScreen extends react_1.Component {
         this.renderTable = this.renderTable.bind(this);
         this.onChangeValue = this.onChangeValue.bind(this);
         this.setInterval = this.setInterval.bind(this);
+        this.onModalConfirm = this.onModalConfirm.bind(this);
+        this.onModalRefresh = this.onModalRefresh.bind(this);
+        this.onDontSave = this.onDontSave.bind(this);
+        this.onGoBackHomeScreen = this.onGoBackHomeScreen.bind(this);
+        this.onCloseModalConfirm = this.onCloseModalConfirm.bind(this);
+        this.onRefreshGame = this.onRefreshGame.bind(this);
+        this.onCloseModalRefresh = this.onCloseModalRefresh.bind(this);
     }
     componentDidMount() {
         this.setInterval();
@@ -59,60 +65,71 @@ class PlayScreen extends react_1.Component {
                         realm.create('Time', { time: this.state.count });
                     });
                     this.props.UserActions.resetState();
-                    this.props.navigation.replace('RankScreen');
+                    this.props.navigation.replace('RankScreen', { time: this.state.count });
                 });
             }
         }, 1000);
     }
+    onModalConfirm() {
+        clearInterval(this.intervalListener);
+        this.setState({
+            modalConfirmVisible: true,
+        });
+    }
+    onModalRefresh() {
+        clearInterval(this.intervalListener);
+        this.setState({
+            modalConfirmVisible: true,
+        });
+    }
+    onDontSave() {
+        this.props.UserActions.resetState();
+        this.props.navigation.goBack();
+    }
+    onGoBackHomeScreen() {
+        const { matrix, count } = this.state;
+        this.props.UserActions.changeValueMatrix({
+            matrix,
+            timeCount: count
+        });
+        this.props.navigation.goBack();
+    }
+    onCloseModalConfirm() {
+        clearInterval(this.intervalListener);
+        this.setState({ modalConfirmVisible: false }, () => this.setInterval());
+    }
+    onRefreshGame() {
+        this.setState({
+            count: 0,
+            matrix: common_1.createMatrix(4, 4, 2),
+            modalRefreshVisible: false
+        }, () => this.setInterval());
+    }
+    onCloseModalRefresh() {
+        this.setState({
+            modalRefreshVisible: false,
+        }, () => this.setInterval());
+    }
     render() {
-        const { count, modalConfirmVisible, modalRefreshVisible, matrix } = this.state;
+        const { count, modalConfirmVisible, modalRefreshVisible } = this.state;
         const timeString = common_1.convertSecondsToString(count);
         return (react_1.default.createElement(react_native_1.View, { style: styles.container },
-            react_1.default.createElement(react_native_1.View, { style: { flex: 1, width: '100%', justifyContent: 'center', flexDirection: 'row', alignItems: 'flex-end' } },
-                react_1.default.createElement(react_native_1.View, { style: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' } },
-                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Clock, style: { tintColor: theme_1.colors.clock, width: 30, height: 30 }, resizeMethod: 'resize' }),
-                    react_1.default.createElement(react_native_1.Text, { style: { color: theme_1.colors.clock, marginLeft: 5, fontWeight: 'bold', fontSize: 25, lineHeight: 30 } }, timeString))),
-            react_1.default.createElement(react_native_1.View, { style: { flex: 6, justifyContent: 'center', alignItems: 'center' } }, this.renderTable()),
-            react_1.default.createElement(react_native_1.View, { style: { flex: 2, flexDirection: 'row', } },
-                react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => {
-                        clearInterval(this.intervalListener);
-                        this.setState({
-                            modalConfirmVisible: true,
-                        });
-                    }, style: { flex: 1, alignItems: 'center' } },
-                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Home, style: { tintColor: theme_1.colors.main, width: 50, height: 50 } })),
-                react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => {
-                        clearInterval(this.intervalListener);
-                        this.setState({
-                            modalRefreshVisible: true
-                        });
-                    }, style: { flex: 1, alignItems: 'center' } },
-                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.refresh, style: { tintColor: theme_1.colors.main, width: 50, height: 50 } }))),
-            react_1.default.createElement(Popup_1.default, { modalVisible: modalConfirmVisible, isDontSaveButton: true, onDontSave: () => {
-                    this.props.UserActions.resetState();
-                    this.props.navigation.goBack();
-                }, onPressButtonYes: () => {
-                    this.props.UserActions.changeValueMatrix({
-                        matrix,
-                        timeCount: count
-                    });
-                    this.props.navigation.goBack();
-                }, onClose: () => {
-                    clearInterval(this.intervalListener);
-                    this.setState({ modalConfirmVisible: false }, () => this.setInterval());
-                }, title: 'Bạn có chắc chắn muốn chơi lại không?' }),
-            react_1.default.createElement(Popup_1.default, { modalVisible: modalRefreshVisible, onPressButtonYes: () => this.setState({
-                    count: 0,
-                    matrix: common_1.createMatrix(4, 4, 2),
-                    modalRefreshVisible: false
-                }, () => this.setInterval()), onClose: () => this.setState({
-                    modalRefreshVisible: false,
-                }, () => this.setInterval()), title: 'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?' })));
+            react_1.default.createElement(react_native_1.View, { style: styles.bodyContainer },
+                react_1.default.createElement(react_native_1.View, { style: styles.bodyHeader },
+                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Clock, style: styles.bodyIconClock, resizeMethod: 'resize' }),
+                    react_1.default.createElement(react_native_1.Text, { style: styles.bodyTextClock }, timeString))),
+            react_1.default.createElement(react_native_1.View, { style: styles.bodyTable }, this.renderTable()),
+            react_1.default.createElement(react_native_1.View, { style: styles.bodyFooter },
+                react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => this.onModalConfirm(), style: styles.buttonFooter },
+                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Home, style: styles.imageFooter })),
+                react_1.default.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => this.onModalRefresh(), style: styles.buttonFooter },
+                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.refresh, style: styles.imageFooter }))),
+            react_1.default.createElement(Popup_1.default, { modalVisible: modalConfirmVisible, isDontSaveButton: true, onDontSave: this.onDontSave, onPressButtonYes: this.onGoBackHomeScreen, onClose: this.onCloseModalConfirm, title: 'Bạn có chắc chắn muốn chơi lại không?' }),
+            react_1.default.createElement(Popup_1.default, { modalVisible: modalRefreshVisible, onPressButtonYes: this.onRefreshGame, onClose: this.onCloseModalRefresh, title: 'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?' })));
     }
     renderTable() {
         const { matrix } = this.state;
-        reactotron_react_native_1.default.log(matrix);
-        return (react_1.default.createElement(react_native_1.View, { style: { flexDirection: 'column', width: react_native_1.Dimensions.get("window").width, flex: 1, justifyContent: 'center', alignItems: 'center' } }, matrix.map((cols, i) => {
+        return (react_1.default.createElement(react_native_1.View, { style: styles.tableContainer }, matrix.map((cols, i) => {
             return (react_1.default.createElement(react_native_1.View, { key: i, style: { flexDirection: 'row' } }, cols.map((item, j) => {
                 let color, colorX;
                 if (!item.fixed) {
@@ -147,7 +164,7 @@ class PlayScreen extends react_1.Component {
                             colorX = theme_1.colors.white;
                     }
                 }
-                return (react_1.default.createElement(react_native_1.TouchableOpacity, { disabled: item.fixed, onPress: () => this.onChangeValue(i, j), key: j, style: [{ backgroundColor: color, height: 70, margin: 5, padding: 10, flex: 1, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }, theme_1.styles.cardShadow] }, item.fixed ? react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Locked, style: { width: 35, height: 42, tintColor: colorX } })
+                return (react_1.default.createElement(react_native_1.TouchableOpacity, { disabled: item.fixed, onPress: () => this.onChangeValue(i, j), key: j, style: [{ backgroundColor: color }, styles.tableCard, theme_1.styles.cardShadow] }, item.fixed ? react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Locked, style: { width: 35, height: 42, tintColor: colorX } })
                     :
                         item.error && react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Cross, style: { width: 60, height: 60, tintColor: colorX } })));
             })));
@@ -162,6 +179,43 @@ const mapDispatchToProps = (dispatch) => ({
 });
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(PlayScreen);
 const styles = react_native_1.StyleSheet.create({
+    bodyContainer: {
+        alignItems: 'flex-end',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: '100%',
+    },
+    bodyFooter: {
+        flex: 2,
+        flexDirection: 'row'
+    },
+    bodyHeader: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    bodyIconClock: {
+        height: 30,
+        tintColor: theme_1.colors.clock,
+        width: 30,
+    },
+    bodyTable: {
+        alignItems: 'center',
+        flex: 6,
+        justifyContent: 'center',
+    },
+    bodyTextClock: {
+        color: theme_1.colors.clock,
+        fontSize: 25,
+        fontWeight: 'bold',
+        lineHeight: 30,
+        marginLeft: 5,
+    },
+    buttonFooter: {
+        alignItems: 'center',
+        flex: 1,
+    },
     container: {
         alignItems: 'center',
         backgroundColor: theme_1.colors.background,
@@ -169,10 +223,31 @@ const styles = react_native_1.StyleSheet.create({
         justifyContent: 'center',
         width: '100%'
     },
+    imageFooter: {
+        height: 50,
+        tintColor: theme_1.colors.main,
+        width: 50,
+    },
     instructions: {
         color: '#333333',
         marginBottom: 5,
         textAlign: 'center',
+    },
+    tableCard: {
+        alignItems: 'center',
+        borderRadius: 10,
+        flex: 1,
+        height: 70,
+        justifyContent: 'center',
+        margin: 5,
+        padding: 10,
+    },
+    tableContainer: {
+        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: react_native_1.Dimensions.get("window").width,
     },
     welcome: {
         margin: 10,

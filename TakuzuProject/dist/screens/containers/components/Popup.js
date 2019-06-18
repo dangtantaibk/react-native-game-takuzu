@@ -27,20 +27,47 @@ class Popup extends react_1.Component {
                 React.createElement(TouchableDebounce_1.TouchableDebounce, { onPress: () => { this.props.onClose(); }, style: { flex: 1 } }),
                 React.createElement(ScreenAreaView_1.default, { forceInset: { bottom: 'always' }, style: [styles.modalSelectBox, { height: isDontSaveButton ? 400 : 300 }] },
                     React.createElement(react_native_1.View, { style: { flex: 1 } },
-                        React.createElement(react_native_1.Text, { style: { color: '#D14242', lineHeight: 26, fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginTop: 34, marginHorizontal: 80 } }, 'Cảnh báo'),
-                        React.createElement(react_native_1.Text, { style: { color: '#000000', lineHeight: 26, fontSize: 16, textAlign: 'center', marginTop: 34, marginHorizontal: 80 } }, title)),
+                        React.createElement(react_native_1.Text, { style: styles.title }, 'Cảnh báo'),
+                        React.createElement(react_native_1.Text, { style: styles.textTitle }, title)),
                     React.createElement(react_native_1.View, null,
-                        React.createElement(react_native_1.TouchableOpacity, { style: { backgroundColor: '#D14242', borderRadius: 6, justifyContent: 'center', alignItems: 'center', height: 50, marginHorizontal: 10, marginTop: 50 }, onPress: () => this.props.onPressButtonYes() },
-                            React.createElement(react_native_1.Text, { style: { color: '#ffffff', lineHeight: 24, fontSize: 16, fontWeight: 'bold' } }, 'Đồng ý')),
+                        React.createElement(react_native_1.TouchableOpacity, { style: styles.buttonDone, onPress: () => this.props.onPressButtonYes() },
+                            React.createElement(react_native_1.Text, { style: styles.textButton }, 'Đồng ý')),
                         isDontSaveButton &&
-                            React.createElement(react_native_1.TouchableOpacity, { style: { backgroundColor: theme_1.colors.main, borderRadius: 6, justifyContent: 'center', alignItems: 'center', height: 50, marginHorizontal: 10, marginTop: 10 }, onPress: () => this.props.onDontSave && this.props.onDontSave() },
-                                React.createElement(react_native_1.Text, { style: { color: '#ffffff', lineHeight: 24, fontSize: 16, fontWeight: 'bold' } }, 'Thoát nhưng không lưu')),
-                        React.createElement(react_native_1.TouchableOpacity, { style: { backgroundColor: theme_1.colors.background, borderRadius: 6, justifyContent: 'center', alignItems: 'center', height: 50, marginHorizontal: 10, marginTop: 10 }, onPress: () => this.props.onClose() },
-                            React.createElement(react_native_1.Text, { style: { color: '#000', lineHeight: 24, fontSize: 16, fontWeight: 'bold' } }, 'Trở lại')))))));
+                            React.createElement(react_native_1.TouchableOpacity, { style: styles.buttonDontSave, onPress: () => this.props.onDontSave && this.props.onDontSave() },
+                                React.createElement(react_native_1.Text, { style: styles.textButton }, 'Thoát nhưng không lưu')),
+                        React.createElement(react_native_1.TouchableOpacity, { style: styles.buttonCancel, onPress: () => this.props.onClose() },
+                            React.createElement(react_native_1.Text, { style: [styles.textButton, { color: '#000' }] }, 'Trở lại')))))));
     }
 }
 exports.default = Popup;
 const styles = react_native_1.StyleSheet.create({
+    buttonCancel: {
+        alignItems: 'center',
+        backgroundColor: theme_1.colors.background,
+        borderRadius: 6,
+        height: 50,
+        justifyContent: 'center',
+        marginHorizontal: 10,
+        marginTop: 10
+    },
+    buttonDone: {
+        alignItems: 'center',
+        backgroundColor: '#D14242',
+        borderRadius: 6,
+        height: 50,
+        justifyContent: 'center',
+        marginHorizontal: 10,
+        marginTop: 50
+    },
+    buttonDontSave: {
+        alignItems: 'center',
+        backgroundColor: theme_1.colors.main,
+        borderRadius: 6,
+        height: 50,
+        justifyContent: 'center',
+        marginHorizontal: 10,
+        marginTop: 10
+    },
     modal: {
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
         flex: 1,
@@ -53,5 +80,28 @@ const styles = react_native_1.StyleSheet.create({
         borderTopRightRadius: 34,
         flex: 0,
         height: 300,
+    },
+    textButton: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        lineHeight: 24,
+    },
+    textTitle: {
+        color: '#000000',
+        fontSize: 16,
+        lineHeight: 26,
+        marginHorizontal: 80,
+        marginTop: 34,
+        textAlign: 'center',
+    },
+    title: {
+        color: '#D14242',
+        fontSize: 22,
+        fontWeight: 'bold',
+        lineHeight: 26,
+        marginHorizontal: 80,
+        marginTop: 34,
+        textAlign: 'center',
     },
 });

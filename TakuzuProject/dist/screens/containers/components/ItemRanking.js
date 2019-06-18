@@ -60,7 +60,7 @@ const styles = react_native_1.StyleSheet.create({
 });
 class ItemRanking extends react_1.Component {
     render() {
-        return (react_1.default.createElement(react_native_1.TouchableOpacity, { onPress: this.props.onPress, style: { paddingVertical: 20 } },
+        return (react_1.default.createElement(react_native_1.View, { style: { paddingVertical: 20 } },
             react_1.default.createElement(react_native_1.View, { style: styles.bodyCard },
                 react_1.default.createElement(react_native_1.View, { style: styles.headerLeftBtn },
                     react_1.default.createElement(react_native_1.Image, { style: { tintColor: '#9B9B9B', width: 30, height: 30 }, source: this.props.icon, resizeMode: "contain" })),

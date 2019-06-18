@@ -1,32 +1,23 @@
 import _ from "lodash";
 import React, { Component } from 'react';
 import {
-  Image,
+  Image, LayoutAnimation,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 import {NavigationScreenProps} from "react-navigation";
-import {connect} from "react-redux";
-import reactotron from "reactotron-react-native";
 import {icons} from "../../assets/images";
 import ScreenAreaView from "../../components/ScreenAreaView";
 import {TouchableDebounce} from "../../components/TouchableDebounce";
 import {colors} from "../../constants/theme";
 import {convertSecondsToString} from "../../helpers/common";
-import {StoreState} from "../../store";
 import ItemRanking from "./components/ItemRanking";
 // tslint:disable-next-line:no-var-requires
 const Realm = require('realm');
 
-
 // tslint:disable-next-line:no-empty-interface
-interface IStateInjectedProps {
-  // fontSizeForDisplay: number,
-}
-
-// tslint:disable-next-line:no-empty-interface
-interface IProps extends NavigationScreenProps, IStateInjectedProps{
+interface IProps extends NavigationScreenProps{
 
 }
 
@@ -44,13 +35,16 @@ class RankScreen extends Component<IProps, IState> {
     }
   }
 
-  public componentWillMount(): void {
+  public componentDidMount(): void {
     Realm.open({
       schema: [{name: 'Time', properties: {time: 'int'}}]
     }).then((realm: any) => {
-      reactotron.log!('info', realm.objects('Time'));
       this.setState({ realm });
     });
+  }
+
+  public componentWillUpdate() {
+    LayoutAnimation.easeInEaseOut();
   }
 
 
@@ -62,15 +56,16 @@ class RankScreen extends Component<IProps, IState> {
     const listRealmSort = _.sortBy(listRealm, 'time');
     return (
       <ScreenAreaView forceInset={{ top: 'always' }} style={styles.container}>
-        <View style={{ flexDirection: 'row', width: '100%', marginTop: 20 }}>
-        <TouchableDebounce onPress={() => {this.props.navigation.goBack()}}>
-          <Image source={icons.leftArow} style={{tintColor: colors.main, width: 30, height: 30, marginLeft: 30}}/>
+        <View style={styles.bodyContainer}>
+        <TouchableDebounce
+            onPress={() => {this.props.navigation.goBack()}}>
+          <Image source={icons.leftArow} style={styles.iconGoBack}/>
         </TouchableDebounce>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ color: colors.main, fontSize: 22, fontWeight: 'bold', lineHeight: 30 }}>{'Bảng xếp hạng'}</Text>
+        <View style={styles.viewTitle}>
+          <Text style={styles.textTitle}>{'Bảng xếp hạng'}</Text>
         </View>
         </View>
-        <View style={{ flexDirection: "column", width: '100%', marginTop: 20 }}>
+        <View style={styles.body}>
           { listRealmSort.length > 0 ?
               listRealmSort.map((item: any, index: number) => {
             const timeString = convertSecondsToString(item ? item.time : 0);
@@ -101,17 +96,29 @@ class RankScreen extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: StoreState): IStateInjectedProps => ({
-  matrix: state.User.matrix,
-});
-
-export default connect(mapStateToProps, null)(RankScreen);
+export default RankScreen;
 
 const styles = StyleSheet.create({
+  body: {
+    flexDirection: "column",
+    marginTop: 20,
+    width: '100%',
+  },
+  bodyContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+    width: '100%',
+  },
   container: {
     alignItems: 'center',
     backgroundColor: colors.background,
     flex: 1,
+  },
+  iconGoBack: {
+    height: 30,
+    marginLeft: 30,
+    tintColor: colors.main,
+    width: 30,
   },
   instructions: {
     color: '#333333',
@@ -122,6 +129,17 @@ const styles = StyleSheet.create({
     borderBottomColor: "#9B9B9B",
     borderBottomWidth: 0.25,
     paddingLeft: 20,
+  },
+  textTitle: {
+    color: colors.main,
+    fontSize: 22,
+    fontWeight: 'bold',
+    lineHeight: 30,
+  },
+  viewTitle: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   welcome: {
     margin: 10,

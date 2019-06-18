@@ -32,32 +32,29 @@ class Popup extends Component<IProps> {
         <View style={styles.modal}>
           <TouchableDebounce onPress={() => {this.props.onClose()}}
               style={{ flex: 1 }}/>
-          <ScreenAreaView forceInset={{ bottom: 'always' }} style={[styles.modalSelectBox, {height: isDontSaveButton ? 400: 300}]}>
+          <ScreenAreaView forceInset={{ bottom: 'always' }}
+                          style={[styles.modalSelectBox, {height: isDontSaveButton ? 400: 300}]}>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: '#D14242', lineHeight: 26, fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginTop: 34, marginHorizontal: 80 }}>
-                {'Cảnh báo'}
-              </Text>
-              <Text style={{ color: '#000000', lineHeight: 26, fontSize: 16, textAlign: 'center', marginTop: 34, marginHorizontal: 80 }}>
-                {title}
-              </Text>
+              <Text style={styles.title}>{'Cảnh báo'}</Text>
+              <Text style={styles.textTitle}>{title}</Text>
             </View>
             <View>
               <TouchableOpacity
-                style={{ backgroundColor: '#D14242', borderRadius: 6, justifyContent: 'center', alignItems: 'center', height: 50, marginHorizontal: 10, marginTop: 50 }}
+                style={styles.buttonDone}
                 onPress={() => this.props.onPressButtonYes()}>
-                <Text style={{ color: '#ffffff', lineHeight: 24, fontSize: 16, fontWeight: 'bold' }}>{'Đồng ý'}</Text>
+                <Text style={styles.textButton}>{'Đồng ý'}</Text>
               </TouchableOpacity>
               { isDontSaveButton &&
                 <TouchableOpacity
-                    style={{ backgroundColor: colors.main, borderRadius: 6, justifyContent: 'center', alignItems: 'center', height: 50, marginHorizontal: 10, marginTop: 10 }}
+                    style={styles.buttonDontSave}
                     onPress={() => this.props.onDontSave && this.props.onDontSave()}>
-                  <Text style={{ color: '#ffffff', lineHeight: 24, fontSize: 16, fontWeight: 'bold' }}>{'Thoát nhưng không lưu'}</Text>
+                  <Text style={styles.textButton}>{'Thoát nhưng không lưu'}</Text>
                 </TouchableOpacity>
               }
               <TouchableOpacity
-                  style={{ backgroundColor: colors.background, borderRadius: 6, justifyContent: 'center', alignItems: 'center', height: 50, marginHorizontal: 10, marginTop: 10 }}
+                  style={styles.buttonCancel}
                   onPress={() => this.props.onClose()}>
-                <Text style={{ color: '#000', lineHeight: 24, fontSize: 16, fontWeight: 'bold' }}>{'Trở lại'}</Text>
+                <Text style={[styles.textButton, {color: '#000'}]}>{'Trở lại'}</Text>
               </TouchableOpacity>
             </View>
           </ScreenAreaView>
@@ -70,6 +67,33 @@ class Popup extends Component<IProps> {
 export default Popup
 
 const styles = StyleSheet.create({
+  buttonCancel: {
+    alignItems: 'center',
+    backgroundColor: colors.background,
+    borderRadius: 6,
+    height: 50,
+    justifyContent: 'center',
+    marginHorizontal: 10,
+    marginTop: 10
+  },
+  buttonDone: {
+    alignItems: 'center',
+    backgroundColor: '#D14242',
+    borderRadius: 6,
+    height: 50,
+    justifyContent: 'center',
+    marginHorizontal: 10,
+    marginTop: 50
+  },
+  buttonDontSave: {
+    alignItems: 'center',
+    backgroundColor: colors.main,
+    borderRadius: 6,
+    height: 50,
+    justifyContent: 'center',
+    marginHorizontal: 10,
+    marginTop: 10
+  },
   modal: {
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     flex: 1,
@@ -82,5 +106,28 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 34,
     flex: 0,
     height: 300,
+  },
+  textButton: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    lineHeight: 24,
+  },
+  textTitle: {
+    color: '#000000',
+    fontSize: 16,
+    lineHeight: 26,
+    marginHorizontal: 80,
+    marginTop: 34,
+    textAlign: 'center',
+  },
+  title: {
+    color: '#D14242',
+    fontSize: 22,
+    fontWeight: 'bold',
+    lineHeight: 26,
+    marginHorizontal: 80,
+    marginTop: 34,
+    textAlign: 'center',
   },
 });
