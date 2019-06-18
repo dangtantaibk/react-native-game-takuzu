@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import reactotron from "reactotron-react-native";
 import {icons} from "../../assets/images";
 import {colors, styles as STYLES} from "../../constants/theme";
-import {createMatrix} from "../../helpers/common";
+import {changeMatrix, createMatrix} from "../../helpers/common";
 import {CardModel} from "../../models/application/CardModel";
 import {StoreState} from "../../store";
 
@@ -41,16 +41,9 @@ class PlayScreen extends Component<IProps, IState> {
   }
 
   public onChangeValue(i: number, j: number) {
-    const {matrix} = this.state;
-    let item = matrix[i][j];
-    switch (item.value) {
-      case 0: item = {...item, value: 1}; break;
-      case 1:item = {...item, value: 2}; break;
-      case 2: item = {...item, value: 0}; break;
-      default: item = {...item, value: 0};
-    }
-    matrix[i][j] = item;
-    this.setState({ matrix})
+    let {matrix} = this.state;
+    matrix = changeMatrix(i, j, matrix);
+    this.setState({ matrix })
   }
 
   public render() {
@@ -111,7 +104,12 @@ class PlayScreen extends Component<IProps, IState> {
                             onPress={() => this.onChangeValue(i, j)}
                             key={j}
                             style={[{ backgroundColor: color, height: 70, margin: 5, padding: 10, flex: 1, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }, STYLES.cardShadow ]}>
-                          <Image source={icons.Cross} style={{ width: 60, height: 60, tintColor: colorX }}/>
+                          {
+                            item.fixed ? <Image source={icons.Locked} style={{ width: 35, height: 42, tintColor: colorX }}/>
+                            :
+                            item.error && <Image source={icons.Cross} style={{ width: 60, height: 60, tintColor: colorX }}/>
+                          }
+
                         </TouchableOpacity>
                     )
                   })
