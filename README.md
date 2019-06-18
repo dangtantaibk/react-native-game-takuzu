@@ -5,6 +5,7 @@ React-native application for Takuzu game project
 - [Redux](http://redux.js.org)
 - [React navigation](https://reactnavigation.org)
 - [Reactotron](https://github.com/infinitered/reactotron)
+- [realm](https://github.com/realm/realm-js)
 
 ## Quick start
 1. Run `npm install`
