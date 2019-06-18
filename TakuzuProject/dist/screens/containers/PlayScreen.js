@@ -27,21 +27,8 @@ class PlayScreen extends react_1.Component {
         this.onChangeValue = this.onChangeValue.bind(this);
     }
     onChangeValue(i, j) {
-        const { matrix } = this.state;
-        let item = matrix[i][j];
-        switch (item.value) {
-            case 0:
-                item = Object.assign({}, item, { value: 1 });
-                break;
-            case 1:
-                item = Object.assign({}, item, { value: 2 });
-                break;
-            case 2:
-                item = Object.assign({}, item, { value: 0 });
-                break;
-            default: item = Object.assign({}, item, { value: 0 });
-        }
-        matrix[i][j] = item;
+        let { matrix } = this.state;
+        matrix = common_1.changeMatrix(i, j, matrix);
         this.setState({ matrix });
     }
     render() {
@@ -95,8 +82,9 @@ class PlayScreen extends react_1.Component {
                             colorX = theme_1.colors.white;
                     }
                 }
-                return (react_1.default.createElement(react_native_1.TouchableOpacity, { disabled: item.fixed, onPress: () => this.onChangeValue(i, j), key: j, style: [{ backgroundColor: color, height: 70, margin: 5, padding: 10, flex: 1, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }, theme_1.styles.cardShadow] },
-                    react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Cross, style: { width: 60, height: 60, tintColor: colorX } })));
+                return (react_1.default.createElement(react_native_1.TouchableOpacity, { disabled: item.fixed, onPress: () => this.onChangeValue(i, j), key: j, style: [{ backgroundColor: color, height: 70, margin: 5, padding: 10, flex: 1, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }, theme_1.styles.cardShadow] }, item.fixed ? react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Locked, style: { width: 35, height: 42, tintColor: colorX } })
+                    :
+                        item.error && react_1.default.createElement(react_native_1.Image, { source: images_1.icons.Cross, style: { width: 60, height: 60, tintColor: colorX } })));
             })));
         })));
     }
