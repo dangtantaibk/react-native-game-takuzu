@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { fontFamily } from "../../../constants/theme";
 
 
@@ -54,15 +54,13 @@ const styles = StyleSheet.create({
 
 interface IProps {
   icon: number;
-  onPress?: () => void;
   title: string;
 }
 
 export default class ItemRanking extends Component<IProps> {
   public render(): React.ReactElement<any> {
     return (
-      <TouchableOpacity
-        onPress={this.props.onPress}
+      <View
         style={{ paddingVertical: 20 }}
       >
         <View style={styles.bodyCard}>
@@ -75,7 +73,7 @@ export default class ItemRanking extends Component<IProps> {
           </View>
           <Text style={styles.bodyCardContentText}>{this.props.title}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }

@@ -31,6 +31,7 @@ interface IProps extends NavigationScreenProps, IStateInjectedProps{
 }
 
 interface IState {
+  time: number
   realm: any
 }
 
@@ -38,7 +39,8 @@ class RankScreen extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      realm: null
+      realm: null,
+      time: props.navigation.getParam('time', 0)
     }
   }
 
@@ -53,13 +55,14 @@ class RankScreen extends Component<IProps, IState> {
 
 
   public render() {
+    const timeRecentString = convertSecondsToString(this.state.time);
     const listRealm = this.state.realm
         ? this.state.realm.objects('Time')
         : [];
     const listRealmSort = _.sortBy(listRealm, 'time');
     return (
-      <ScreenAreaView style={styles.container}>
-        <View style={{ flexDirection: 'row', width: '100%' }}>
+      <ScreenAreaView forceInset={{ top: 'always' }} style={styles.container}>
+        <View style={{ flexDirection: 'row', width: '100%', marginTop: 20 }}>
         <TouchableDebounce onPress={() => {this.props.navigation.goBack()}}>
           <Image source={icons.leftArow} style={{tintColor: colors.main, width: 30, height: 30, marginLeft: 30}}/>
         </TouchableDebounce>
@@ -84,6 +87,14 @@ class RankScreen extends Component<IProps, IState> {
                 <ItemRanking icon={icons.User} title={`Bạn chưa hoàn thành game nào cả`}/>
               </View>
           }
+          {
+            this.state.time ?
+              <View style={styles.item}>
+                <ItemRanking icon={icons.User} title={`Game vừa rồi: ${timeRecentString}`}/>
+              </View>
+              : <View/>
+          }
+
         </View>
       </ScreenAreaView>
     );

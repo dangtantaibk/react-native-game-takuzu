@@ -88,7 +88,7 @@ class PlayScreen extends Component<IProps, IState> {
             realm.create('Time', {time: this.state.count});
           });
           this.props.UserActions.resetState();
-          this.props.navigation.replace('RankScreen')
+          this.props.navigation.replace('RankScreen', {time: this.state.count});
         });
       }
 
@@ -149,7 +149,6 @@ class PlayScreen extends Component<IProps, IState> {
                 this.setState({modalConfirmVisible: false}, () => this.setInterval())}}
               title={'Bạn có chắc chắn muốn chơi lại không?'}
           />
-
 
           <Popup
               modalVisible={modalRefreshVisible}
