@@ -6,38 +6,64 @@ import {
   Text, TouchableOpacity,
   View
 } from 'react-native';
+import {NavigationScreenProps} from "react-navigation";
 import {connect} from "react-redux";
 import reactotron from "reactotron-react-native";
+import {bindActionCreators, Dispatch} from "redux";
 import {icons} from "../../assets/images";
+import Popup from "../../components/Popup";
+import {TouchableDebounce} from "../../components/TouchableDebounce";
 import {colors, styles as STYLES} from "../../constants/theme";
-import {changeMatrix, createMatrix} from "../../helpers/common";
+import {changeMatrix, convertSecondsToString, createMatrix} from "../../helpers/common";
 import {CardModel} from "../../models/application/CardModel";
+import {MatrixModel} from "../../models/application/MatrixModel";
 import {StoreState} from "../../store";
+import * as UserActions from '../../store/user/actions'
 
-// tslint:disable-next-line:no-empty-interface
 interface IStateInjectedProps {
-  // fontSizeForDisplay: number,
+  matrix: MatrixModel,
+}
+
+interface IDispatchInjectedProps {
+  UserActions: typeof UserActions
 }
 
 // tslint:disable-next-line:no-empty-interface
-interface IProps extends IStateInjectedProps{
+interface IProps extends NavigationScreenProps, IStateInjectedProps, IDispatchInjectedProps{
 
 }
 
 interface IState {
   matrix: CardModel[][]
+  count: number;
+  modalConfirmVisible: boolean;
+  modalRefreshVisible: boolean;
 }
 
 class PlayScreen extends Component<IProps, IState> {
+  private intervalListener: any;
+
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      matrix: createMatrix(4,4,2)
+      count: props.matrix.timeCount || 0,
+      matrix: props.matrix.matrix || [],
+      modalConfirmVisible: false,
+      modalRefreshVisible: false
     };
 
     this.renderTable = this.renderTable.bind(this);
     this.onChangeValue = this.onChangeValue.bind(this);
+    this.setInterval = this.setInterval.bind(this);
+  }
+
+  public componentDidMount(): void {
+    this.setInterval();
+  }
+
+  public componentWillUnmount(): void {
+    clearInterval(this.intervalListener);
   }
 
   public onChangeValue(i: number, j: number) {
@@ -46,27 +72,80 @@ class PlayScreen extends Component<IProps, IState> {
     this.setState({ matrix })
   }
 
-  public render() {
+  public setInterval() {
+    this.intervalListener = setInterval(() => {
+      this.setState({ count: this.state.count + 1 });
+    }, 1000);
+  }
 
+  public render() {
+    const { count, modalConfirmVisible, modalRefreshVisible, matrix } = this.state;
+    const timeString = convertSecondsToString(count);
     return (
         <View style={styles.container}>
           <View style={{ flex: 1, width: '100%', justifyContent: 'center', flexDirection: 'row', alignItems: 'flex-end' }}>
             <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
               <Image source={icons.Clock} style={{ tintColor: colors.clock, width: 30, height: 30 }} resizeMethod={'resize'}/>
-              <Text style={{ color: colors.clock, marginLeft: 5, fontWeight: 'bold', fontSize: 25, lineHeight: 30 }}>{'00:00'}</Text>
+              <Text style={{ color: colors.clock, marginLeft: 5, fontWeight: 'bold', fontSize: 25, lineHeight: 30 }}>{timeString}</Text>
             </View>
           </View>
           <View style={{ flex: 6, justifyContent: 'center', alignItems: 'center' }}>
             {this.renderTable()}
           </View>
           <View style={{ flex: 2, flexDirection: 'row', }}>
-            <View style={{ flex: 1, alignItems: 'center' }}>
+            <TouchableDebounce onPress={() => {
+              clearInterval(this.intervalListener);
+              this.setState({
+                modalConfirmVisible: true,
+              });
+            }}
+                style={{ flex: 1, alignItems: 'center' }}>
               <Image source={icons.Home} style={{ tintColor: colors.main, width: 50, height: 50 }}/>
-            </View>
-            <View style={{ flex: 1, alignItems: 'center' }}>
+            </TouchableDebounce>
+            <TouchableDebounce onPress={() => {
+              clearInterval(this.intervalListener);
+              this.setState({
+               modalRefreshVisible: true
+              });
+            }}
+                style={{ flex: 1, alignItems: 'center' }}>
               <Image source={icons.refresh} style={{ tintColor: colors.main, width: 50, height: 50 }}/>
-            </View>
+            </TouchableDebounce>
           </View>
+
+          <Popup
+              modalVisible={modalConfirmVisible}
+              isDontSaveButton={true}
+              onDontSave={() => {
+                this.props.UserActions.resetState();
+                this.props.navigation.replace('HomeScreen');
+              }}
+              onPressButtonYes={() => {
+                this.props.UserActions.changeValueMatrix({
+                  matrix,
+                  timeCount: count
+                });
+                this.props.navigation.replace('HomeScreen');
+              }}
+              onClose={() => {
+                clearInterval(this.intervalListener);
+                this.setState({modalConfirmVisible: false}, () => this.setInterval())}}
+              title={'Bạn có chắc chắn muốn chơi lại không?'}
+          />
+
+
+          <Popup
+              modalVisible={modalRefreshVisible}
+              onPressButtonYes={() => this.setState({
+                count: 0,
+                matrix: createMatrix(4,4,2),
+                modalRefreshVisible: false
+              }, () => this.setInterval())}
+              onClose={() => this.setState({
+                modalRefreshVisible: false,
+              }, () => this.setInterval())}
+              title={'Bạn có muốn lưu lại game vừa chơi và trở về màn hình bắt đầu không?'}
+          />
         </View>
     );
   }
@@ -126,7 +205,11 @@ const mapStateToProps = (state: StoreState): IStateInjectedProps => ({
   matrix: state.User.matrix,
 });
 
-export default connect(mapStateToProps, null)(PlayScreen);
+const mapDispatchToProps = (dispatch: Dispatch): IDispatchInjectedProps => ({
+  UserActions: bindActionCreators(UserActions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayScreen);
 
 const styles = StyleSheet.create({
   container: {

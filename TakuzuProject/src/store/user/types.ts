@@ -1,5 +1,5 @@
 import { IAction } from "../";
-import {CardModel} from "../../models/application/CardModel";
+import {MatrixModel} from "../../models/application/MatrixModel";
 
 export enum Types {
     ON_CHANGE_VALUE_MATRIX_REQUEST = "@@user/ON_CHANGE_VALUE_MATRIX_REQUEST",
@@ -13,13 +13,13 @@ export interface IState {
     changeValueCardLoading: boolean;
     changeValueCardHasError: boolean;
     changeValueCardError?: Error;
-    matrix: CardModel[][];
+    matrix: MatrixModel;
 }
 
 export interface IOnChangeValueMatrixRequestAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_REQUEST> { }
 
-export interface IOnChangeValueMatrixSuccessAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_SUCCESS, CardModel[][]> {
-    payload: CardModel[][];
+export interface IOnChangeValueMatrixSuccessAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_SUCCESS, MatrixModel> {
+    payload: MatrixModel;
 }
 export interface IOnChangeValueMatrixFailureAction extends IAction<Types.ON_CHANGE_VALUE_MATRIX_FAILURE, Error> { }
 

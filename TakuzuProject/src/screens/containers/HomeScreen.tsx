@@ -37,7 +37,7 @@ class HomeScreen extends Component<IProps> {
   public render() {
     return (
       <View style={styles.container}>
-        <TouchableDebounce onPress={() => {this.props.navigation.navigate('PlayScreen')}}
+        <TouchableDebounce onPress={() => {this.props.navigation.replace('PlayScreen')}}
             style={styles.blockPlay}>
           <Image source={icons.Play} style={{ tintColor: colors.main }}/>
         </TouchableDebounce>

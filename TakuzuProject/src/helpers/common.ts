@@ -57,18 +57,24 @@ export function checkMatrix(matrix: CardModel[][]) {
 
   for (let i = 0; i < matrix.length; i++) {
     const arr1 = matrix[i].map(item => item.value);
-    // tslint:disable-next-line:prefer-for-of
-    for (let j = 0; j < matrix.length; j++) {
-      if (j < matrix.length - 1 && i !== j) {
-        const arr2 = matrix[j].map(item => item.value);
-        const equal = isEqual(arr1, arr2);
-        if (equal) {
-          matrix[i] = matrix[i].map(item =>{
-            return {...item, error: true}
-          });
-          matrix[j] = matrix[j].map(item =>{
-            return {...item, error: true}
-          });
+    let isFull = true;
+    for (const item of matrix[i]) {
+      if (item.value === 2) {isFull = false}
+    }
+    if (isFull) {
+      // tslint:disable-next-line:prefer-for-of
+      for (let j = 0; j < matrix.length; j++) {
+        if (j < matrix.length - 1 && i !== j) {
+          const arr2 = matrix[j].map(item => item.value);
+          const equal = isEqual(arr1, arr2);
+          if (equal) {
+            matrix[i] = matrix[i].map(item =>{
+              return {...item, error: true}
+            });
+            matrix[j] = matrix[j].map(item =>{
+              return {...item, error: true}
+            });
+          }
         }
       }
     }
@@ -186,5 +192,19 @@ export function convertStringToSeconds(timeString: string): number {
   }
 
   return seconds
+}
+
+/**
+ * Convert seconds to string 00:00
+ *
+ * @param {number} seconds
+ * @return number
+ */
+export function convertSecondsToString(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const second= Math.floor(seconds - minutes*60);
+  const timeString = `${minutes < 10 ? '0' + minutes.toString() : minutes.toString()}:${second < 10 ? '0' + second.toString() : second.toString()}`;
+
+  return timeString
 }
 

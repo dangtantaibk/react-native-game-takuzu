@@ -1,11 +1,17 @@
 import {createMatrix} from "../../helpers/common";
+import {MatrixModel} from "../../models/application/MatrixModel";
 import {IActions, IState, Types} from "./types";
 
 
 export const initState: IState = {
     changeValueCardHasError: false,
     changeValueCardLoading: false,
-    matrix: createMatrix(4,4,2),
+    matrix: new MatrixModel({
+        matrix: createMatrix(4,4,2),
+        timeCount: 0
+    })
+
+
 };
 
 export default function (state: IState = initState, action: IActions): IState {
@@ -35,7 +41,13 @@ export default function (state: IState = initState, action: IActions): IState {
         }
 
         case Types.RESET_STATE: {
-            return initState;
+            return {
+                ...state,
+                matrix: new MatrixModel({
+                    matrix: createMatrix(4,4,2),
+                    timeCount: 0
+                })
+            };
         }
 
         default: return {
