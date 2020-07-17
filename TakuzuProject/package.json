@@ -15,7 +15,7 @@
     "@types/lodash": "^4.14.134",
     "@types/react-redux": "^6.0.1",
     "axios": "^0.19.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "react": "16.6.3",
     "react-native": "0.58.6",
